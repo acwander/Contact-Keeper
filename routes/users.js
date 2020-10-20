@@ -10,18 +10,24 @@ const User = require('../models/User');
 router.post(
 	'/',
 	[
+		// name must not be empty
 		check('name', 'Name is required').not().isEmpty(),
+		// email must be a valid email address
 		check('email', 'A valid email is required').isEmail(),
+		// password must be at least 6 chars long
 		check(
 			'password',
 			'Enter a valid password with 6 or more characters'
 		).isLength({ min: 6 }),
 	],
 	(req, res) => {
+		// Finds the validation errors in this request and wraps them in an object with handy functions
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
+			// Send array of errors
 			return res.status(400).json({ errors: errors.array() });
 		}
+		// Send success if all checks are met
 		res.send('success');
 	}
 );
