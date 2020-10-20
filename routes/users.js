@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 
@@ -11,11 +11,11 @@ router.post(
 	'/',
 	[
 		// name must not be empty
-		check('name', 'Name is required').not().isEmpty(),
+		body('name', 'Name is required').not().isEmpty(),
 		// email must be a valid email address
-		check('email', 'A valid email is required').isEmail(),
+		body('email', 'A valid email is required').isEmail(),
 		// password must be at least 6 chars long
-		check(
+		body(
 			'password',
 			'Enter a valid password with 6 or more characters'
 		).isLength({ min: 6 }),
